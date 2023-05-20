@@ -34,12 +34,11 @@ prompt = PromptTemplate(
     template = template, 
 )
 
-def load_LLM(): 
+def load_LLM(openai_api_key): 
     """Logic for loading the chain you want to use should go here."""
-    llm = OpenAI(temperature = .5)
+    llm = OpenAI(temperature = .5, openai_api_key=openai_api_key)
     return llm
 
-llm = load_LLM()
 st.set_page_config(page_title = "Twitter Content Generator", page_icon =":robot")
 st.header("Twitter Content Generator")
 
@@ -53,6 +52,12 @@ with col2:
     st.image(image="twitter_business_pic.png", width= 400, caption="https://sproutsocial.com/insights/twitter-for-business/")
 
 st.markdown("## Enter the industry you work in")
+
+def get_api_key():
+    input_text = st.text_input(label="OpenAI API Key ",  placeholder="Ex: sk-2twmA8tfCb8un4...", key="openai_api_key_input")
+    return input_text
+
+openai_api_key = get_api_key()
 
 col3, col4, col5 = st.columns(3)
 with col3: 
@@ -77,6 +82,11 @@ industry_input = get_text()
 st.markdown("### Your Tweets:")
 
 if industry_input:
+    if not openai_api_key: 
+        st.warning('Please insert OpenAI API Key. Instructions [here](https://help.openai.com/en/articles/4936850-where-do-i-find-my-secret-api-key)', icon="⚠️")
+        st.stop()
+    
+    llm = load_LLM(openai_api_key=openai_api_key)
     prompt = prompt.format(tone=option_tone, number_tweet = option_number_tweets, length_tweets = option_length, industry = industry_input)
-    tweets = llm(prompt.format(tone=option_tone, number_tweet = option_number_tweets, length_tweets = option_length, industry = industry_input))
+    tweets = llm(prompt)
     st.write(tweets)
