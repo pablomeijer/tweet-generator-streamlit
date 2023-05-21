@@ -39,19 +39,16 @@ def load_LLM(openai_api_key):
     llm = OpenAI(temperature = .5, openai_api_key=openai_api_key)
     return llm
 
-st.set_page_config(page_title = "Twitter Content Generator", page_icon =":robot")
-st.header("Twitter Content Generator")
+st.set_page_config(page_title = "Promo Parrot", page_icon =":robot")
+st.image(image="promo parrot.png", width= 700)
 
 col1, col2 = st.columns(2)
 
 with col1: 
-    st.markdown("""In today's digitally connected world, Twitter is an indispensable platform for businesses, fueling real-time customer engagement, building brand awareness, and driving targeted marketing efforts.  
-                \n Our AI-driven software ensures your business not only thrives in this dynamic environment but also stands out from the competition with creative and engaging tweets tailored to your unique brand voice.""")
+    st.markdown("""Promo Parrot is revolutionizing Twitter marketing by offering businesses an AI-powered solution that instantly crafts engaging tweets. \n\n Our platform allows users to customize their communication's tone and length, ensuring each message resonates with their audience and aligns perfectly with their brand ethos.""")
     
 with col2: 
-    st.image(image="twitter_business_pic.png", width= 400, caption="https://sproutsocial.com/insights/twitter-for-business/")
-
-st.markdown("## Enter the industry you work in")
+   st.markdown("""\n We're here to streamline your social media strategy, delivering instant, impactful, and personalized tweets at your command.""")
 
 def get_api_key():
     input_text = st.text_input(label="OpenAI API Key ",  placeholder="Ex: sk-2twmA8tfCb8un4...", key="openai_api_key_input")
@@ -72,11 +69,12 @@ with col4:
 with col5:
     option_length = st.selectbox("What length would you like your tweets to be?", 
                          ("Extremely Short", "Short", "Medium", "Long", "Extremely Long"))
-    
+
 def get_text():
     input_text = st.text_area(label = "", placeholder = "Your Industry...", key = "industry_input")
     return input_text
-
+    
+st.markdown("### Which industry do you work in?")
 industry_input = get_text()
 
 st.markdown("### Your Tweets:")
